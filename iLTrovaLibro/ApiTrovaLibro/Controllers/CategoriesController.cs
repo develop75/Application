@@ -12,7 +12,7 @@ namespace ApiTrovaLibro.Controllers
         private readonly IRepository _repository;
         private readonly ILog _log;
 
-        public CategoriesController(IRepository repository, ILog log)
+        public CategoriesController(CategoryFactory repository, ILog log)
         {
             _repository = repository;
             _log = log;
