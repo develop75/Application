@@ -1,0 +1,21 @@
+{
+  "name": "ApiTrovaLibro",
+  "version": "1.0.0",
+  "description": "Documentazione tecnica delle API per il sistema di gestione libri",
+  "title": "Documentazione ApiTrovaLibro",
+  "url": "https://localhost:7210",
+  "sampleUrl": "https://localhost:7210",
+  "header": {
+    "title": "Introduzione",
+    "filename": "header.md"
+  },
+  "footer": {
+    "title": "Note Legali",
+    "filename": "footer.md"
+  },
+  "template": {
+    "withCompare": true,
+    "withGenerator": true,
+    "aloneDisplay": false
+  }
+}
