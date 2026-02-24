@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -10,6 +12,22 @@
   }
 }
 
+
+html, body {
+    /* Assicurati che non ci siano overflow che bloccano lo sticky */
+    overflow-x: visible;
+    position: relative;
+    height: auto;
+    min-height: 100%;
+}
+
+/* Se proprio devi nascondere l'asse X, fallo solo sul body 
+   e assicurati che non ci siano altezze fisse */
+body {
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+/*
 html,
 body {
   max-width: 100vw;
@@ -40,3 +58,4 @@ a {
     color-scheme: dark;
   }
 }
+    */

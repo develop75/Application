@@ -1,0 +1,64 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.36105.23 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiTrovaLibro", "ApiTrovaLibro\ApiTrovaLibro.csproj", "{FB702105-EABD-C35B-32AA-BCC1E8D9CC1F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrovaLibroLib", "TrovaLibroLib\TrovaLibroLib.csproj", "{DFE82261-CB8F-4B74-E681-4228C6716F86}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "TrovaLibroDatabase", "TrovaLibroDatabase\TrovaLibroDatabase.sqlproj", "{2AF13D36-0F31-47BF-ADB2-0826E2A0840A}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "TrovaLibroClient", "TrovaLibroClient\", "{2530EC2A-E2DE-ED1E-C8B5-8048F4B62593}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.8"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_56836"
+		Debug.AspNetCompiler.PhysicalPath = "TrovaLibroClient\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_56836\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_56836"
+		Release.AspNetCompiler.PhysicalPath = "TrovaLibroClient\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_56836\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "56836"
+		SlnRelativePath = "TrovaLibroClient\"
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FB702105-EABD-C35B-32AA-BCC1E8D9CC1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB702105-EABD-C35B-32AA-BCC1E8D9CC1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB702105-EABD-C35B-32AA-BCC1E8D9CC1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB702105-EABD-C35B-32AA-BCC1E8D9CC1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFE82261-CB8F-4B74-E681-4228C6716F86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFE82261-CB8F-4B74-E681-4228C6716F86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFE82261-CB8F-4B74-E681-4228C6716F86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFE82261-CB8F-4B74-E681-4228C6716F86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AF13D36-0F31-47BF-ADB2-0826E2A0840A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AF13D36-0F31-47BF-ADB2-0826E2A0840A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AF13D36-0F31-47BF-ADB2-0826E2A0840A}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{2AF13D36-0F31-47BF-ADB2-0826E2A0840A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AF13D36-0F31-47BF-ADB2-0826E2A0840A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AF13D36-0F31-47BF-ADB2-0826E2A0840A}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{2530EC2A-E2DE-ED1E-C8B5-8048F4B62593}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2530EC2A-E2DE-ED1E-C8B5-8048F4B62593}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2530EC2A-E2DE-ED1E-C8B5-8048F4B62593}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{2530EC2A-E2DE-ED1E-C8B5-8048F4B62593}.Release|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FC22BCC7-9D3B-427D-BA5D-0A8B00ABB081}
+	EndGlobalSection
+EndGlobal
