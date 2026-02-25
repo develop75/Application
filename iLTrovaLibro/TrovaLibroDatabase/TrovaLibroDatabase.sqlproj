@@ -67,5 +67,9 @@
     <Build Include="Data Definition Language\Tables\T_BOOK.sql" />
     <Build Include="Data Definition Language\Tables\T_COMUNICATION.sql" />
     <Build Include="Data Manipulation Language\ScriptCreation.sql" />
+    <Build Include="Data Definition Language\Tables\T_SYS_USER.sql" />
+    <Build Include="Data Definition Language\Tables\T_SYS_COUNTRY.sql" />
+    <Build Include="Data Definition Language\Tables\T_SYS_PROVINCE.sql" />
+    <Build Include="Data Definition Language\Tables\T_SYS_CITY.sql" />
   </ItemGroup>
 </Project>

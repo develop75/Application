@@ -6,8 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TrovaLibro.DataContext;
-using TrovaLibro.DataModels;
+using TrovaLibro.Context.DataModels;
 using TrovaLibro.Factory;
 using TrovaLibroLib.Dto;
 

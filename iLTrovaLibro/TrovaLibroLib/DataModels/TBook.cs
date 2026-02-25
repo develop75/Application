@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace TrovaLibro.DataModels;
+namespace TrovaLibro.Context.DataModels;
 
 public partial class TBook
 {
@@ -11,7 +11,7 @@ public partial class TBook
 
     public long IdUser { get; set; }
 
-    public string CaNameUser { get; set; }
+    public string CaMailUser { get; set; }
 
     public string CaCityUser { get; set; }
 
@@ -39,7 +39,7 @@ public partial class TBook
 
     public decimal CdPrice { get; set; }
 
-    public decimal CdShippingPrice { get; set; }
+    public decimal CdPriceOld { get; set; }
 
     public bool FlShipping { get; set; }
 

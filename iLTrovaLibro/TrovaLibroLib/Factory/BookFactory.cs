@@ -5,8 +5,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using TrovaLibro.DataContext;
-using TrovaLibro.DataModels;
+using TrovaLibro.Context.DataModels;
 using TrovaLibro.Factory;
 using TrovaLibroLib.Dto;
 
@@ -39,7 +38,7 @@ namespace TrovaLibroLib.Factory
                 cfg.CreateMap<TBook, BookDto>()
                     .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                     .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.IdUser))
-                    .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.CaNameUser))
+                    .ForMember(dest => dest.UserMail, opt => opt.MapFrom(src => src.CaMailUser))
                     .ForMember(dest => dest.UserCity, opt => opt.MapFrom(src => src.CaCityUser))
                     .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.IdCategory))
                     .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.IdCategoryNavigation.CaName))
@@ -56,7 +55,7 @@ namespace TrovaLibroLib.Factory
                     .ForMember(dest => dest.Cover, opt => opt.MapFrom(src => src.CaCover))
                     .ForMember(dest => dest.CoverPrice, opt => opt.MapFrom(src => src.CdCoverPrice))
                     .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.CdPrice))
-                    .ForMember(dest => dest.ShippingPrice, opt => opt.MapFrom(src => src.CdShippingPrice))
+                    .ForMember(dest => dest.PriceOld, opt => opt.MapFrom(src => src.CdPriceOld))                    
                     .ForMember(dest => dest.IsShippingAvailable, opt => opt.MapFrom(src => src.FlShipping))
                     .ForMember(dest => dest.IsSelling, opt => opt.MapFrom(src => src.FlSelling))
                     .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => src.FlActive ?? true))
@@ -74,12 +73,12 @@ namespace TrovaLibroLib.Factory
                     .ForMember(dest => dest.CaCover, opt => opt.MapFrom(src => src.Cover))
                     .ForMember(dest => dest.CdCoverPrice, opt => opt.MapFrom(src => src.CoverPrice))
                     .ForMember(dest => dest.CdPrice, opt => opt.MapFrom(src => src.Price))
-                    .ForMember(dest => dest.CdShippingPrice, opt => opt.MapFrom(src => src.ShippingPrice))
+                    .ForMember(dest => dest.CdPriceOld, opt => opt.MapFrom(src => src.PriceOld))
                     .ForMember(dest => dest.FlShipping, opt => opt.MapFrom(src => src.IsShippingAvailable))
                     .ForMember(dest => dest.FlSelling, opt => opt.MapFrom(src => src.IsSelling))
                     .ForMember(dest => dest.FlActive, opt => opt.MapFrom(src => src.IsActive))
                     .ForMember(dest => dest.IdUser, opt => opt.MapFrom(src => src.UserId))
-                    .ForMember(dest => dest.CaNameUser, opt => opt.MapFrom(src => src.UserName))
+                    .ForMember(dest => dest.CaMailUser, opt => opt.MapFrom(src => src.UserMail))
                     .ForMember(dest => dest.CaCityUser, opt => opt.MapFrom(src => src.UserCity))
                     .ForMember(dest => dest.IdCategory, opt => opt.MapFrom(src => src.CategoryId))
                     .ForMember(dest => dest.IdCategorySub, opt => opt.MapFrom(src => src.CategorySubId))

@@ -2,17 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace TrovaLibroLib.Dto
 {
-    public class CategoryDto
+    public class CountryDetailDto
     {
-        [JsonPropertyName("Id")]
         public long Id { get; set; }
-
-        [JsonPropertyName("Name")]
-        public string Name { get; set; }
+        public string CountryName { get; set; }
+        public List<ProvinceDetailDto> Provinces { get; set; } = new();
     }
 }

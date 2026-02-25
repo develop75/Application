@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace TrovaLibro.DataModels;
+namespace TrovaLibro.Context.DataModels;
 
 public partial class TCategory
 {

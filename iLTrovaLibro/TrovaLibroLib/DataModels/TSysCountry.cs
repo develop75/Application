@@ -5,11 +5,13 @@ using System.Collections.Generic;
 
 namespace TrovaLibro.Context.DataModels;
 
-public partial class TTarget
+public partial class TSysCountry
 {
     public long Id { get; set; }
 
-    public string CaName { get; set; }
+    public string CaCountryName { get; set; }
 
-    public virtual ICollection<TBook> TBooks { get; set; } = new List<TBook>();
+    public bool? FlActive { get; set; }
+
+    public virtual ICollection<TSysProvince> TSysProvinces { get; set; } = new List<TSysProvince>();
 }

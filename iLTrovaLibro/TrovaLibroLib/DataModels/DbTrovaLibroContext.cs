@@ -3,9 +3,8 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using TrovaLibro.DataModels;
 
-namespace TrovaLibro.DataContext;
+namespace TrovaLibro.Context.DataModels;
 
 public partial class DbTrovaLibroContext : DbContext
 {
@@ -21,6 +20,14 @@ public partial class DbTrovaLibroContext : DbContext
     public virtual DbSet<TCategorySub> TCategorySubs { get; set; }
 
     public virtual DbSet<TComunication> TComunications { get; set; }
+
+    public virtual DbSet<TSysCity> TSysCities { get; set; }
+
+    public virtual DbSet<TSysCountry> TSysCountries { get; set; }
+
+    public virtual DbSet<TSysProvince> TSysProvinces { get; set; }
+
+    public virtual DbSet<TSysUser> TSysUsers { get; set; }
 
     public virtual DbSet<TTarget> TTargets { get; set; }
 
@@ -48,10 +55,10 @@ public partial class DbTrovaLibroContext : DbContext
             entity.Property(e => e.CaIsbn)
                 .HasMaxLength(20)
                 .HasColumnName("CA_ISBN");
-            entity.Property(e => e.CaNameUser)
+            entity.Property(e => e.CaMailUser)
                 .IsRequired()
                 .HasMaxLength(500)
-                .HasColumnName("CA_NAME_USER");
+                .HasColumnName("CA_MAIL_USER");
             entity.Property(e => e.CaPublisher)
                 .IsRequired()
                 .HasMaxLength(255)
@@ -66,10 +73,9 @@ public partial class DbTrovaLibroContext : DbContext
             entity.Property(e => e.CdPrice)
                 .HasColumnType("decimal(10, 2)")
                 .HasColumnName("CD_PRICE");
-            entity.Property(e => e.CdShippingPrice)
-                .HasDefaultValueSql("0.00")
+            entity.Property(e => e.CdPriceOld)
                 .HasColumnType("decimal(10, 2)")
-                .HasColumnName("CD_SHIPPING_PRICE");
+                .HasColumnName("CD_PRICE_OLD");
             entity.Property(e => e.DtCreation)
                 .HasDefaultValueSql("GETUTCDATE()")
                 .HasColumnName("DT_CREATION");
@@ -162,6 +168,145 @@ public partial class DbTrovaLibroContext : DbContext
                 .HasForeignKey(d => d.IdBook)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_T_COMUNICATION_T_BOOK");
+        });
+
+        modelBuilder.Entity<TSysCity>(entity =>
+        {
+            entity.ToTable("T_SYS_CITY");
+
+            entity.Property(e => e.CaCityCode)
+                .IsRequired()
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("CA_CITY_CODE");
+            entity.Property(e => e.CaCityName)
+                .IsRequired()
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("CA_CITY_NAME");
+            entity.Property(e => e.IdProvince).HasColumnName("ID_PROVINCE");
+
+            entity.HasOne(d => d.IdProvinceNavigation).WithMany(p => p.TSysCities)
+                .HasForeignKey(d => d.IdProvince)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_T_SYS_CITY_T_SYS_PROVINCE");
+        });
+
+        modelBuilder.Entity<TSysCountry>(entity =>
+        {
+            entity.ToTable("T_SYS_COUNTRY");
+
+            entity.Property(e => e.CaCountryName)
+                .IsRequired()
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("CA_COUNTRY_NAME");
+            entity.Property(e => e.FlActive)
+                .IsRequired()
+                .HasDefaultValueSql("1")
+                .HasColumnName("FL_ACTIVE");
+        });
+
+        modelBuilder.Entity<TSysProvince>(entity =>
+        {
+            entity.ToTable("T_SYS_PROVINCE");
+
+            entity.Property(e => e.CaProvinceCode)
+                .IsRequired()
+                .HasMaxLength(2)
+                .IsUnicode(false)
+                .IsFixedLength()
+                .HasColumnName("CA_PROVINCE_CODE");
+            entity.Property(e => e.CaProvinceName)
+                .IsRequired()
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("CA_PROVINCE_NAME");
+            entity.Property(e => e.IdCountry).HasColumnName("ID_COUNTRY");
+
+            entity.HasOne(d => d.IdCountryNavigation).WithMany(p => p.TSysProvinces)
+                .HasForeignKey(d => d.IdCountry)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_T_SYS_PROVINCE_T_SYS_COUNTRY");
+        });
+
+        modelBuilder.Entity<TSysUser>(entity =>
+        {
+            entity.ToTable("T_SYS_USER");
+
+            entity.HasIndex(e => e.CaEmail, "IX_T_SYS_USER_CA_EMAIL").IsUnique();
+
+            entity.HasIndex(e => e.CaFiscalCode, "IX_T_SYS_USER_CA_FISCAL_CODE").IsUnique();
+
+            entity.Property(e => e.CaAddress)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("CA_ADDRESS");
+            entity.Property(e => e.CaCap)
+                .HasMaxLength(6)
+                .IsUnicode(false)
+                .HasColumnName("CA_CAP");
+            entity.Property(e => e.CaCell)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("CA_CELL");
+            entity.Property(e => e.CaEmail)
+                .IsRequired()
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("CA_EMAIL");
+            entity.Property(e => e.CaFiscalCode)
+                .IsRequired()
+                .HasMaxLength(16)
+                .IsUnicode(false)
+                .HasColumnName("CA_FISCAL_CODE");
+            entity.Property(e => e.CaIban)
+                .HasMaxLength(34)
+                .IsUnicode(false)
+                .HasColumnName("CA_IBAN");
+            entity.Property(e => e.CaIpaddress)
+                .HasMaxLength(200)
+                .IsUnicode(false)
+                .HasColumnName("CA_IPADDRESS");
+            entity.Property(e => e.CaName)
+                .IsRequired()
+                .HasMaxLength(40)
+                .IsUnicode(false)
+                .HasColumnName("CA_NAME");
+            entity.Property(e => e.CaPassword)
+                .IsRequired()
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("CA_PASSWORD");
+            entity.Property(e => e.CaSurname)
+                .IsRequired()
+                .HasMaxLength(40)
+                .IsUnicode(false)
+                .HasColumnName("CA_SURNAME");
+            entity.Property(e => e.CdRating)
+                .HasDefaultValueSql("1")
+                .HasColumnName("CD_RATING");
+            entity.Property(e => e.DaCreation)
+                .HasDefaultValueSql("GETDATE()")
+                .HasColumnType("datetime")
+                .HasColumnName("DA_CREATION");
+            entity.Property(e => e.DaLastActivity)
+                .HasColumnType("datetime")
+                .HasColumnName("DA_LAST_ACTIVITY");
+            entity.Property(e => e.FlActive)
+                .HasDefaultValueSql("1")
+                .HasColumnName("FL_ACTIVE");
+            entity.Property(e => e.FlMarketing)
+                .HasDefaultValueSql("0")
+                .HasColumnName("FL_MARKETING");
+            entity.Property(e => e.FlOnline)
+                .HasDefaultValueSql("0")
+                .HasColumnName("FL_ONLINE");
+            entity.Property(e => e.FlShipping)
+                .HasDefaultValueSql("0")
+                .HasColumnName("FL_SHIPPING");
+            entity.Property(e => e.IdCity).HasColumnName("ID_CITY");
+            entity.Property(e => e.IdProvince).HasColumnName("ID_PROVINCE");
         });
 
         modelBuilder.Entity<TTarget>(entity =>

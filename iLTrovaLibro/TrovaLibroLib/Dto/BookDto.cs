@@ -15,8 +15,8 @@ namespace TrovaLibroLib.Dto
         [JsonPropertyName("UserId")]
         public long UserId { get; set; }
 
-        [JsonPropertyName("UserName")]
-        public string UserName { get; set; }
+        [JsonPropertyName("UserMail")]
+        public string UserMail { get; set; }
 
         [JsonPropertyName("UserCity")]
         public string UserCity { get; set; }
@@ -65,6 +65,9 @@ namespace TrovaLibroLib.Dto
 
         [JsonPropertyName("Price")]
         public decimal Price { get; set; }
+
+        [JsonPropertyName("PriceOld")]
+        public decimal PriceOld { get; set; }
 
         [JsonPropertyName("ShippingPrice")]
         public decimal ShippingPrice { get; set; }

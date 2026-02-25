@@ -1,29 +1,64 @@
 ﻿'use client';
 
-import React, { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
+
 import Link from 'next/link';
 import { User, Mail, Lock, Phone, MapPin, Hash, Truck, Handshake, ChevronRight } from 'lucide-react';
 import ReCAPTCHA from "react-google-recaptcha";
 
+import ProvinceSelect from '@/components/ProvinceSelect'
+import SearchableSelect from '@/components/SearchableSelect'
+
+
+import { getProvinces } from '../services/dictionary'
+
+
 
 const Register = () => {
+
+    const [provinces, setProvinces] = useState([]); // Caricate da API
+    const [availableCities, setAvailableCities] = useState([]);
+
     const [canShip, setCanShip] = useState(false)
 
     const [formData, setFormData] = useState({
         nome: '', cognome: '', cf: '', indirizzo: '', cap: '',
-        provincia: '', citta: '', cellulare: '', mail: '',
+        provincia: '', citta: '', cellulare: '', mail: '', provinceId: '', cityId: '',
         password: '', shippingMethod: 'scambio' // 'spedizione' o 'scambio'
     });
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
+        const { name, value, originalItem } = e.target;
+
         setFormData(prev => ({ ...prev, [name]: value }));
+
+        // Se cambia la provincia, popola le città
+        if (name === 'provinceId') {
+            setAvailableCities(originalItem.cities || []);
+            setFormData(prev => ({ ...prev, cityId: '' })); // Resetta la città
+        }
     };
+
 
     const onChange = (value) => {
         console.log("Captcha value:", value);
         // Qui puoi salvare il valore nello stato per inviarlo al backend
     };
+
+
+    useEffect(() => {
+
+        const fetchProvinces = async () => {
+            try {
+                const data = await getProvinces()
+             
+                setProvinces(data);                
+            } catch (error) { console.error("Errore province:", error); }
+        };
+
+        fetchProvinces();        
+
+    }, []);
 
     return (
         <div className="min-h-screen bg-slate-50 pt-4 md:pt-6 pb-10">
@@ -55,7 +90,32 @@ const Register = () => {
                             <div className="md:col-span-2">
                                 <InputGroup label="Indirizzo" name="indirizzo" icon={<MapPin size={18} />} placeholder="Via Roma, 10" onChange={handleChange} />
                             </div>
-                            <InputGroup label="Città" name="citta" icon={<MapPin size={18} />} placeholder="Milano" onChange={handleChange} />
+                            {/*<InputGroup label="Città" name="citta" icon={<MapPin size={18} />} placeholder="Milano" onChange={handleChange} />*/}
+               
+                            {/* SELECT PROVINCE */}
+                            <SearchableSelect
+                                label="Provincia"
+                                name="provinceId"
+                                items={provinces}
+                                value={formData.provinceId}
+                                itemLabel="provinceName"
+                                itemBadge="provinceCode"
+                                onChange={handleChange}
+                                icon={<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>}
+                            />
+
+                            {/* SELECT CITTÀ */}
+                            <SearchableSelect
+                                label="Città"
+                                name="cityId"
+                                items={availableCities}
+                                value={formData.cityId}
+                                itemLabel="cityName"
+                                itemBadge="cityCode"
+                                onChange={handleChange}
+                                placeholder={formData.provinceId ? "Seleziona città..." : "Scegli prima una provincia"}
+                                icon={<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>}
+                            />
                             <div className="grid grid-cols-2 gap-4">
                                 <InputGroup label="CAP" name="cap" placeholder="20100" onChange={handleChange} />
                                 <InputGroup label="Prov." name="provincia" placeholder="MI" onChange={handleChange} />

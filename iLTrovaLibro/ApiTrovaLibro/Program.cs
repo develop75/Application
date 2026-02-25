@@ -8,8 +8,7 @@ using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System.Reflection;
-using TrovaLibro.DataContext;
-using TrovaLibroLib.Dto;
+using TrovaLibro.Context.DataModels;
 using TrovaLibroLib.Factory;
 
 namespace ApiTrovaLibro
@@ -27,7 +26,11 @@ namespace ApiTrovaLibro
             var permitLimitForHour = builder.Configuration.GetValue<int>("AppSettings:PermitLimitForHour");
             var maxRecords = builder.Configuration.GetValue<long>("AppSettings:MaxRecordsLoaded");
             var allowedOriginsString = builder.Configuration.GetValue<string>("AppSettings:AllowedOrigins") ?? "";
-            var allowedOrigins = allowedOriginsString.Split(',', StringSplitOptions.RemoveEmptyEntries);
+            //var allowedOrigins = allowedOriginsString.Split(',', StringSplitOptions.RemoveEmptyEntries);
+            var allowedOrigins = allowedOriginsString?
+                .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                .Select(o => o.Trim()) // Rimuove eventuali spazi bianchi ai lati
+                .ToArray() ?? Array.Empty<string>();
 
             builder.Services.AddRateLimiter(options => {
                 options.AddFixedWindowLimiter(policyName: "signup-limit", opt => {
@@ -64,6 +67,8 @@ namespace ApiTrovaLibro
             // Usiamo 'AddScoped' affinché venga creata un'istanza per ogni richiesta HTTP
             builder.Services.AddScoped<CategoryFactory>();
             builder.Services.AddScoped<BookFactory>();
+            builder.Services.AddScoped<ProvinceDetailFactory>();
+            
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -76,34 +81,6 @@ namespace ApiTrovaLibro
 
             var app = builder.Build();
 
-            /// Configurazione del middleware per la gestione globale delle eccezioni
-            app.UseExceptionHandler(exceptionHandlerApp =>
-            {
-                exceptionHandlerApp.Run(async context =>
-                {
-                    // RECUPERO DEL LOG: Ottieni l'istanza di ILog registrata nello scope della richiesta
-                    var log = context.RequestServices.GetRequiredService<ILog>();
-
-                    context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-                    context.Response.ContentType = "application/json";
-
-                    var exceptionHandlerPathFeature = context.Features.Get<IExceptionHandlerPathFeature>();
-                    var exception = exceptionHandlerPathFeature?.Error;
-
-                    // Logga l'errore usando il sistema di logging
-                    log.Error($"{exception.Message}:\n{exception.StackTrace}"); 
-
-                    var response = new InfoError
-                    {
-                        Title = "Si è verificato un errore interno",
-                        Status = 500,
-                        Detail = exception?.Message // In produzione, meglio un messaggio generico
-                    };
-
-                    await context.Response.WriteAsJsonAsync(response);
-                });
-            });
-
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
@@ -111,17 +88,36 @@ namespace ApiTrovaLibro
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            else
+            {
+                // Configurazione del middleware per la gestione globale delle eccezioni
+                app.UseExceptionHandler(exceptionHandlerApp =>
+                {
+                    exceptionHandlerApp.Run(async context =>
+                    {
+                        // RECUPERO DEL LOG: Ottieni l'istanza di ILog registrata nello scope della richiesta
+                        var log = context.RequestServices.GetRequiredService<ILog>();
 
-            //**********************************************
-            // Attiva il tuo buttafuori personalizzato
-            app.UseMiddleware<SecurityMiddleware>();
-            //**********************************************
+                        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+                        context.Response.ContentType = "application/json";
 
+                        var exceptionHandlerPathFeature = context.Features.Get<IExceptionHandlerPathFeature>();
+                        var exception = exceptionHandlerPathFeature?.Error;
 
-            app.UseHttpsRedirection();
-            app.UseAuthentication();
-            app.UseAuthorization();
-            app.MapControllers();
+                        // Logga l'errore usando il sistema di logging
+                        log.Error($"{exception.Message}:\n{exception.StackTrace}");
+
+                        var response = new InfoError
+                        {
+                            Title = "Si è verificato un errore interno",
+                            Status = 500,
+                            Detail = exception?.Message // In produzione, meglio un messaggio generico
+                        };
+
+                        await context.Response.WriteAsJsonAsync(response);
+                    });
+                });
+            }
 
 
             //Se la tua WebApp è ospitata dietro un Reverse Proxy(come Nginx, IIS o Azure Load Balancer), 
@@ -132,10 +128,28 @@ namespace ApiTrovaLibro
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
             });
 
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            // (Necessario affinché UseCors sappia dove va la richiesta)
+            app.UseRouting();
 
             // Abilita CORS per permettere al client Next.js di chiamare l'API
             app.UseCors("MyAllowSpecificOrigins");
+
+            //**********************************************
+            // Attiva il tuo buttafuori personalizzato
+            app.UseMiddleware<SecurityMiddleware>();
+            //**********************************************
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.UseRateLimiter();
+
+
+            app.MapControllers();
+
 
             app.Run();
         }
