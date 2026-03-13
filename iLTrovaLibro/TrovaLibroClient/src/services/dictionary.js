@@ -1,7 +1,10 @@
 ﻿
 
 
-
+/**
+ * Cerca tutte le provincie
+ * @returns
+ */
 export const getProvinces = async () => {
     try {
         const response = await fetch('https:/localhost:7065/api/ProvinceDetail', {
