@@ -15,6 +15,14 @@
    "T4TemplatePath": null,
    "Tables": [
       {
+         "Name": "[dbo].[T_API_REST]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[T_API_REST_HEADERS]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[T_BOOK]",
          "ObjectType": 0
       },

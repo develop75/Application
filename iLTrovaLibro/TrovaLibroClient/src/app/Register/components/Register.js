@@ -101,7 +101,7 @@ const Register = () => {
         console.log("handleSubmit", payload)
 
         try {
-            const response = await fetch('https://localhost:7065/api/Account/Register', {
+            const response = await fetch('https://localhost:7065/api/User/Register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

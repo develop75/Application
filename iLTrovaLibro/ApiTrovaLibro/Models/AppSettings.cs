@@ -22,6 +22,9 @@
         /// Nome dell'header personalizzato per l'identificazione.
         /// </summary>
         public static string CustomHeaderName { get; set; }
-
+        /// <summary>
+        /// Chiave segreta utilizzata per la crittografia o altre operazioni sensibili.
+        /// </summary>
+        public static string KeyCripto { get; set; }
     }
 }

@@ -71,5 +71,7 @@
     <Build Include="Data Definition Language\Tables\T_SYS_COUNTRY.sql" />
     <Build Include="Data Definition Language\Tables\T_SYS_PROVINCE.sql" />
     <Build Include="Data Definition Language\Tables\T_SYS_CITY.sql" />
+    <Build Include="Data Definition Language\Tables\T_API_REST.sql" />
+    <Build Include="Data Definition Language\Tables\T_API_REST_HEADERS.sql" />
   </ItemGroup>
 </Project>

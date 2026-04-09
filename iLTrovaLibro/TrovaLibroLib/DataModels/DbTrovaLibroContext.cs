@@ -13,6 +13,10 @@ public partial class DbTrovaLibroContext : DbContext
     {
     }
 
+    public virtual DbSet<TApiRest> TApiRests { get; set; }
+
+    public virtual DbSet<TApiRestHeader> TApiRestHeaders { get; set; }
+
     public virtual DbSet<TBook> TBooks { get; set; }
 
     public virtual DbSet<TCategory> TCategories { get; set; }
@@ -33,6 +37,48 @@ public partial class DbTrovaLibroContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<TApiRest>(entity =>
+        {
+            entity.ToTable("T_API_REST");
+
+            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.CaName)
+                .IsRequired()
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("CA_NAME");
+            entity.Property(e => e.CaUrl)
+                .IsRequired()
+                .HasMaxLength(1000)
+                .IsUnicode(false)
+                .HasColumnName("CA_URL");
+        });
+
+        modelBuilder.Entity<TApiRestHeader>(entity =>
+        {
+            entity.ToTable("T_API_REST_HEADERS");
+
+            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.CaKey)
+                .IsRequired()
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("CA_KEY");
+            entity.Property(e => e.CaValue)
+                .IsRequired()
+                .HasMaxLength(1000)
+                .IsUnicode(false)
+                .HasColumnName("CA_VALUE");
+            entity.Property(e => e.IdApiRest).HasColumnName("ID_API_REST");
+
+            entity.HasOne(d => d.IdApiRestNavigation)
+                .WithMany(p => p.TApiRestHeaders)
+                .HasForeignKey(d => d.IdApiRest)
+                // CAMBIA QUI: da ClientSetNull a Cascade
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("FK_T_API_REST_HEADERS_T_API_REST");
+        });
+
         modelBuilder.Entity<TBook>(entity =>
         {
             entity.ToTable("T_BOOK");

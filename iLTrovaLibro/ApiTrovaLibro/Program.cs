@@ -26,6 +26,7 @@ namespace ApiTrovaLibro
             var permitLimitForHour = builder.Configuration.GetValue<int>("AppSettings:PermitLimitForHour");
             var maxRecords = builder.Configuration.GetValue<long>("AppSettings:MaxRecordsLoaded");
             var allowedOriginsString = builder.Configuration.GetValue<string>("AppSettings:AllowedOrigins") ?? "";
+
             //var allowedOrigins = allowedOriginsString.Split(',', StringSplitOptions.RemoveEmptyEntries);
             var allowedOrigins = allowedOriginsString?
                 .Split(',', StringSplitOptions.RemoveEmptyEntries)
@@ -68,7 +69,9 @@ namespace ApiTrovaLibro
             builder.Services.AddScoped<CategoryFactory>();
             builder.Services.AddScoped<BookFactory>();
             builder.Services.AddScoped<ProvinceDetailFactory>();
-            
+            builder.Services.AddScoped<UserFactory>();
+            builder.Services.AddScoped<ApiRestFactory>();
+
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
