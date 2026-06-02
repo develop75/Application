@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "Otp": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:51568;http://localhost:51570"
+    }
+  }
+}
